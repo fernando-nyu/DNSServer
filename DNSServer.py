@@ -82,18 +82,18 @@ dns_records = {
         ),
     },
     # Add more records as needed (see assignment instructions!
-    'safebank.com': {
+    'safebank.com.': {
         dns.rdatatype.A: '192.168.1.102',
     },
     'google.com': {
         dns.rdatatype.A: '192.168.1.103',
     },
-    'legitsite.com': {
+    'legitsite.com.': {
         dns.rdatatype.A: '192.168.1.104',
     },
     'nyu.edu.': {
         dns.rdatatype.A: '192.168.1.106',
-        dns.rdatatype.TXT: (base64.urlsafe_b64encode(encrypted_value).decode('utf-8'),),
+        dns.rdatatype.TXT: (encrypted_value,),
         dns.rdatatype.MX: [(10, 'mxa-00256a01.gslb.pphosted.com.')],
         dns.rdatatype.AAAA: '2001:0db8:85a3:0000:0000:8a2e:0373:7312',
         dns.rdatatype.NS: 'ns1.nyu.edu.',
