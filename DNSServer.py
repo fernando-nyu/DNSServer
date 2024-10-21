@@ -47,7 +47,7 @@ def decrypt_with_aes(encrypted_data, password, salt):
     return decrypted_data.decode('utf-8')
 
 
-salt = 'Tandon'.encode('utf-8')  # Remember it should be a byte-object
+salt = "Tandon".encode('utf-8')  # Remember it should be a byte-object
 password = "fg2482@nyu.edu"
 input_string = "AlwaysWatching"
 
@@ -82,20 +82,18 @@ dns_records = {
         ),
     },
     # Add more records as needed (see assignment instructions!
-    'safebank.com.': {
+    'safebank.com': {
         dns.rdatatype.A: '192.168.1.102',
     },
-    'google.com.': {
+    'google.com': {
         dns.rdatatype.A: '192.168.1.103',
     },
-    'legitsite.com.': {
+    'legitsite.com': {
         dns.rdatatype.A: '192.168.1.104',
-    },
-    'yahoo.com.': {
-        dns.rdatatype.A: '192.168.1.105',
     },
     'nyu.edu': {
         dns.rdatatype.A: '192.168.1.106',
+        dns.rdatatype.TXT: (encrypt_with_aes(input_string, password, salt),),
         dns.rdatatype.MX: [(10, 'mxa-00256a01.gslb.pphosted.com.')],
         dns.rdatatype.AAAA: '2001:0db8:85a3:0000:0000:8a2e:0373:7312',
         dns.rdatatype.NS: 'ns1.nyu.edu.',
@@ -106,7 +104,7 @@ dns_records = {
 def run_dns_server():
     # Create a UDP socket and bind it to the local IP address (what unique IP address is used here, similar to webserver lab) and port (the standard port for DNS)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Research this
-    server_socket.bind(("127.0.0.1", 53))
+    server_socket.bind(("0.0.0.0", 53))
 
     while True:
         try:
@@ -134,8 +132,8 @@ def run_dns_server():
                         rdata_list.append(MX(dns.rdataclass.IN, dns.rdatatype.MX, pref, server))
                 elif qtype == dns.rdatatype.SOA:
                     mname, rname, serial, refresh, retry, expire, minimum = answer_data  # What is the record format? See dns_records dictionary. Assume we handle @, Class, TTL elsewhere. Do some research on SOA Records
-                    rdata = SOA(dns.rdataclass.IN,
-                                dns.rdatatype.SOA, mname, rname, serial, refresh, retry, expire, minimum)  # follow format from previous line
+                    rdata = SOA(dns.rdataclass.IN, dns.rdatatype.SOA, mname, rname, serial, refresh, retry, expire,
+                                minimum)  # follow format from previous line
                     rdata_list.append(rdata)
                 else:
                     if isinstance(answer_data, str):
@@ -151,7 +149,7 @@ def run_dns_server():
 
             # Send the response back to the client using the `server_socket.sendto` method and put the response to_wire(), return to the addr you received from
             print("Responding to request:", qname)
-            server_socket.send(dns.message.answer[0].to_wire(), addr)
+            server_socket.sendto(response.to_wire(), addr)
         except KeyboardInterrupt:
             print('\nExiting...')
             server_socket.close()
