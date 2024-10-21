@@ -78,13 +78,13 @@ dns_records = {
    
     # Add more records as needed (see assignment instructions!
     'safebank.com': {
-        dns.rdatatype.A: '192.168.1.102'
+        dns.rdatatype.A: '192.168.1.102',
     },
     'google.com': {
-        dns.rdatatype.A: '192.168.1.103'
+        dns.rdatatype.A: '192.168.1.103',
     },
     'legitsite.com': {
-        dns.rdatatype.A: '192.168.1.104'
+        dns.rdatatype.A: '192.168.1.104',
     },
     'nyu.edu': {
         dns.rdatatype.A: '192.168.1.106',
